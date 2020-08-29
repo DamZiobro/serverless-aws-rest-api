@@ -73,7 +73,7 @@ run-and-logs: smoke-run sleep logs
 e2e-tests: run-and-logs
 
 load-tests:
-	locust -f load-tests/locusttest.py --config load-tests/locust.conf
+	python -m locust -f load-tests/locusttest.py --config load-tests/locust.conf
 
 destroy:
 	@echo "======> DELETING in env $(ENV) <======"
