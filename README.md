@@ -2,7 +2,7 @@ Serverless AWS REST API
 ==================
 
 **CI/CD status**:
-![](https://github.com/DamZiobro/serverless-aws-rest-api/workflows/CI/badge.svg)
+![CI/CD](https://github.com/DamZiobro/serverless-aws-rest-api/workflows/CI/CD/badge.svg)
 
 This is the skeleton for simple REST API implementation based on Python.
 
@@ -44,16 +44,15 @@ Quick start
 ```
 make deploy
 ```
-4. **Run app and get logs** (logs should contain: `Received message: test_message`)
+4. **Run app and get logs**
 ```
 make run
 sleep 20 #wait 20 seconds until logs stream is created in AWS
 make logs
 ```
-5. **Do changes** in your lambda function **and redeploy** only lambda_function1 function:
+5. **Do changes** in lambda function **and redeploy** only 'candidate' function:
 ```
-sed -i 's/test_message/NEW_TEST_MESSAGE/g' app/lambda_function1.py
-make deploy FUNC=lambda_function2
+make deploy FUNC=candidate
 ```
 6. **Run app again and verify that logs** contains your changes (logs should contain: `Received message: NEW_TEST_MESSAGE`):
 ```
@@ -91,21 +90,6 @@ By default resources are deployed to the default
 [stage](https://serverless-stack.com/chapters/stages-in-serverless-framework.html)
 (environment) based on current branch name ex. `master`. Thanks to that multiple users working on separate branches can deploy to
 separate AWS resources to avoid resources conflicts.
-
-After triggering the above command on `master` branch following resources will be created in your
-AWS account:
- - AWS Lambda: `myapp-master-lambda_function2`
- - AWS Lambda: `myapp-master-lambda_function1`
- - AWS SQS queue: `myapp-master-sqs-lambda_function1`
-
-
-The resources for different stages will be deployed with different names to be
-possible to test different versions of app separately. 
-For example, if you trigger `make deploy ENV=dev` following resources will be
-deployed:
- - `myapp-dev-lambda_function1`
- - `myapp-dev-lambda_function2`
- - `myapp-dev-sqs-lambda_function1`
 
 Tests
 ----
