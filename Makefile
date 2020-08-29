@@ -23,6 +23,7 @@ serverless:
 requirements: serverless
 	pip install -r requirements.txt
 	pip install -r tests/test-requirements.txt
+	pip install -r load-tests/test-requirements.txt
 	touch $@
 
 unittest: requirements

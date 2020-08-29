@@ -21,7 +21,7 @@ def submit(event, context):
     logger.warning(f"message: {msg}")
 
     logger.warning("start sleeping...")
-    time.sleep(5)
+    time.sleep(1)
     logger.warning("stop sleeping...")
 
     resp = {
