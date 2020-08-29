@@ -52,19 +52,22 @@ else
 	sls deploy --stage $(ENV) -f $(FUNC) --verbose --region $(AWS_DEFAULT_REGION)
 endif
 
-run:
+smoke-run:
 	@echo "======> Running app on env $(ENV) <======"
-	sls invoke --stage $(ENV) -f lambda_function1
+	sls invoke --stage $(ENV) -f candidate
+
+smoke-local-run:
+	@echo "======> Running app on locally <======"
+	python app/candidate.py
 
 sleep:
 	sleep 20
 
 logs:
 	@echo "======> Getting logs from env $(ENV) <======"
-	sls logs --stage $(ENV) -f lambda_function1
-	sls logs --stage $(ENV) -f lambda_function2
+	sls logs --stage $(ENV) -f candidate
 
-run-and-logs: run sleep logs
+run-and-logs: smoke-run sleep logs
 
 e2e-tests: run-and-logs
 
@@ -78,4 +81,4 @@ destroy:
 ci: code-checks unittest coverage
 cd: ci deploy e2e-tests load-tests
 
-.PHONY: e2e-test deploy destroy unittest coverage lint security code-checks run logs destroy
+.PHONY: e2e-test deploy destroy unittest coverage lint security code-checks smoke-run logs destroy
