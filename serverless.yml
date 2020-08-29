@@ -1,0 +1,58 @@
+service: myapp
+
+plugins:
+  - serverless-python-requirements
+  - serverless-plugin-cloudwatch-dashboard
+provider:
+  name: aws
+  runtime: python3.7
+  stage: default
+  region: eu-west-1
+
+  iamRoleStatements:
+    - Effect: "Allow"
+      Action:
+        - "sqs:SendMessage"
+      Resource:
+        Fn::GetAtt: [ queuelambdafunction1, Arn ]
+
+package:
+    exclude:
+        - node_modules/**
+
+custom:
+  env: ${opt:stage, self:provider.stage}
+  resource_prefix: ${self:service}-${self:custom.env}
+  queue-name-lambda_function1: ${self:custom.resource_prefix}-lambda_function1
+  pythonRequirements:
+      dockerizePip: non-linux
+
+functions:
+
+
+  lambda_function1:
+    handler: app/lambda_function1.lambda_handler
+    events:
+      - eventBridge:
+          schedule: rate(10 minutes)
+    environment:
+      SQS_URL:
+        Ref: queuelambdafunction1
+    dashboard: true
+
+
+  lambda_function2:
+    handler: app/lambda_function2.lambda_handler
+    events:
+      - sqs:
+          arn:
+            Fn::GetAtt: [ queuelambdafunction1, Arn ]
+    dashboard: true
+
+resources:
+  Resources:
+
+    queuelambdafunction1:
+      Type: AWS::SQS::Queue
+      Properties:
+          QueueName: ${self:custom.queue-name-lambda_function1}
