@@ -23,6 +23,7 @@ serverless:
 requirements: serverless
 	pip install -r requirements.txt
 	pip install -r tests/test-requirements.txt
+	pip install -r load-tests/test-requirements.txt
 	touch $@
 
 unittest: requirements
@@ -52,24 +53,27 @@ else
 	sls deploy --stage $(ENV) -f $(FUNC) --verbose --region $(AWS_DEFAULT_REGION)
 endif
 
-run:
+smoke-run:
 	@echo "======> Running app on env $(ENV) <======"
-	sls invoke --stage $(ENV) -f lambda_function1
+	sls invoke --stage $(ENV) -f candidate
+
+smoke-local-run:
+	@echo "======> Running app on locally <======"
+	python app/candidate.py
 
 sleep:
 	sleep 20
 
 logs:
 	@echo "======> Getting logs from env $(ENV) <======"
-	sls logs --stage $(ENV) -f lambda_function1
-	sls logs --stage $(ENV) -f lambda_function2
+	sls logs --stage $(ENV) -f candidate
 
-run-and-logs: run sleep logs
+run-and-logs: smoke-run sleep logs
 
 e2e-tests: run-and-logs
 
 load-tests:
-	@echo -e "load-tests not implemented yet"
+	python -m locust -f load-tests/locusttest.py --config load-tests/locust.conf
 
 destroy:
 	@echo "======> DELETING in env $(ENV) <======"
@@ -78,4 +82,4 @@ destroy:
 ci: code-checks unittest coverage
 cd: ci deploy e2e-tests load-tests
 
-.PHONY: e2e-test deploy destroy unittest coverage lint security code-checks run logs destroy
+.PHONY: e2e-test deploy destroy unittest coverage lint security code-checks smoke-run logs destroy

@@ -4,7 +4,12 @@ Serverless AWS REST API
 **CI/CD status**:
 ![](https://github.com/DamZiobro/serverless-aws-rest-api/workflows/CI/badge.svg)
 
-This simple project is demonstration of multiple modern technologies/methodologies/principles:
+This is the skeleton for simple REST API implementation based on Python.
+
+It is implemented based on this pattern:
+![](https://programmaticponderings.files.wordpress.com/2019/10/new-04-sqs-dynamodb.png)
+
+Additionally, this simple project is demonstration of multiple modern technologies/methodologies/principles:
 
   * **Python** programming language
   * cloud-based app deployed to **Amazon Web Services (AWS)**
@@ -12,6 +17,7 @@ This simple project is demonstration of multiple modern technologies/methodologi
   * **Microservices** architecture (single resposiblity AWS Lambdas communicating via AWS SQS)
   * **Infrastracture as a Code** (IaaC) (Serverless framework - [serverless.yml](serverless.yml) defines infrastructure resources)
   * **DevOps**-based workflow (common code base with Makefile commands spanning Developers and Operations Teams together)
+  * **RESTful API** - simple implementation of REST API based on Python
   * Fully automated **CI/CD pipeline** based on GitHub Actions CI/CD Server
     * code syntax verification (pylint) (`make lint`)
     * security verification (bandit) (`make security`)
@@ -19,7 +25,7 @@ This simple project is demonstration of multiple modern technologies/methodologi
     * code coverage (coverage python module)  (`make coverage`)
     * deploy infrastructure (AWS, Serverless framework)  (`make deploy`)
     * End-To-End tests (cucumber, pytest-bdd, selenium) (NOT IMPLEMENTED YET) (`make e2e-tests`)
-    * load/performance tests (gatling, locust) (NOT IMPLEMENTED YET) (`make load-tests`)
+    * load/performance tests (locust) (`make load-tests`)
     * destroy infrastructure (AWS, Serverless framework)  (`make destroy`)
   * **deploying from Command Line or from CI/CD** 
     * single Makefile to control all deployment and code checkings commands
@@ -27,11 +33,6 @@ This simple project is demonstration of multiple modern technologies/methodologi
     * available to deploy single lambda function (ex. `make deploy FUNC=lambdaFunctionName`)
   * **Monitoring**
     * basic monitoring based on **CloudWatch Dashboards**
-
-This is the skeleton of framework which allows to build and deploy serverless
-apps using chain of `AWS Lambda => SQS => AWS Lambda => ...` pattern. 
-
-![](https://epsagon.com/wp-content/uploads/2018/11/ezgif-2-e456cb3ebd60.jpg)
 
 This framework is based on [a Serverless Application Framework](https://www.serverless.com/)
 
