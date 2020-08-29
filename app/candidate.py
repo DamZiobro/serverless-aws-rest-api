@@ -2,9 +2,7 @@
 # -*- coding: utf-8 -*-
 # vim:fenc=utf-8
 
-import os
 import json
-import boto3
 import logging
 import time
 
@@ -22,9 +20,9 @@ def submit(event, context):
     msg = "Hello World"
     logger.warning(f"message: {msg}")
 
-    logger.warning(f"start sleeping...")
+    logger.warning("start sleeping...")
     time.sleep(5)
-    logger.warning(f"stop sleeping...")
+    logger.warning("stop sleeping...")
 
     resp = {
         "statusCode": 200,
