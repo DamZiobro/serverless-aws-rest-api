@@ -12,11 +12,11 @@ class TestHelloModule(unittest.TestCase):
     @patch("boto3.client")
     @patch("time.sleep")
     def test_postCandidate_returns_success(self, sleep_mock, sqs_mock):
-        result = candidate.postCandidate("test", None)
+        result = candidate.post_candidate("test", None)
         sleep_mock.assert_called_once()
 
     @patch("boto3.client")
     @patch("json.dumps")
     def test_getCandidate_returns_success(self, json_dumps_mock, sqs_mock):
-        result = candidate.getCandidate("test", None)
+        result = candidate.get_candidate("test", None)
         json_dumps_mock.assert_called_once_with({})

@@ -33,7 +33,7 @@ custom:
 
 functions:
   postCandidate:
-    handler: app/candidate.postCandidate
+    handler: app/candidate.post_candidate
     memorySize: 128
     description: POST candidate
     events:
@@ -42,7 +42,7 @@ functions:
           method: post
 
   getCandidate:
-    handler: app/candidate.getCandidate
+    handler: app/candidate.get_candidate
     memorySize: 128
     description: GET all candidates
     events:

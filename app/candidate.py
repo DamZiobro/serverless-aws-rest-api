@@ -9,7 +9,7 @@ import time
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger("candidate")
 
-def postCandidate(event, context):
+def post_candidate(event, context):
     """
     POST candidate to DynamoDB
     """
@@ -30,7 +30,7 @@ def postCandidate(event, context):
 
     return resp
 
-def getCandidate(event, context):
+def get_candidate(event, context):
     """
     Get candidates from DynamoDB
     """
@@ -45,5 +45,5 @@ def getCandidate(event, context):
 
 
 if __name__ == "__main__":
-    postCandidate(None, None)
-    getCandidate(None, None)
+    post_candidate(None, None)
+    get_candidate(None, None)
