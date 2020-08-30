@@ -62,7 +62,7 @@ smoke-local-run:
 	python app/candidate.py
 
 sleep:
-	sleep 5
+	sleep 8
 
 logs:
 	@echo "======> Getting logs from env $(ENV) <======"
