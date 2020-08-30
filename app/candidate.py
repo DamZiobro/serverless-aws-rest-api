@@ -6,21 +6,18 @@ import json
 import logging
 import time
 
-logging.basicConfig(level="INFO")
+logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger("candidate")
 
-def submit(event, context):
+def postCandidate(event, context):
     """
-    First Lambda function. Triggered manually.
-    :param event: AWS event data
-    :param context: AWS function's context
-    :return: ''
+    POST candidate to DynamoDB
     """
 
     msg = "Hello World"
     logger.warning(f"message: {msg}")
 
-    logger.warning("start sleeping...")
+    logger.info("start sleeping...")
     time.sleep(1)
     logger.warning("stop sleeping...")
 
@@ -33,5 +30,20 @@ def submit(event, context):
 
     return resp
 
+def getCandidate(event, context):
+    """
+    Get candidates from DynamoDB
+    """
+
+    resp = {
+        "statusCode": 200,
+        "body": json.dumps({})
+    }
+    logger.warning(f"resp: {resp}")
+
+    return resp
+
+
 if __name__ == "__main__":
-    submit(None, None)
+    postCandidate(None, None)
+    getCandidate(None, None)
