@@ -67,7 +67,7 @@ sleep:
 logs:
 	@echo "======> Getting logs from env $(ENV) <======"
 	sls logs --stage $(ENV) -f getCandidate
-	sls logs --stage $(ENV) -f postCandidate
+	#sls logs --stage $(ENV) -f postCandidate
 
 run-and-logs: smoke-run sleep logs
 
