@@ -12,7 +12,6 @@ provider:
 
   environment:
     CANDIDATE_TABLE: ${self:service}-${opt:stage, self:provider.stage}
-    CANDIDATE_EMAIL_TABLE: "candidate-email-${opt:stage, self:provider.stage}"
     
   iamRoleStatements:
     - Effect: Allow

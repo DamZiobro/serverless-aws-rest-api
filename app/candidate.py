@@ -5,6 +5,9 @@
 import json
 import logging
 import time
+import uuid
+import os
+import boto3
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger("candidate")
@@ -13,17 +16,17 @@ def post_candidate(event, context):
     """
     POST candidate to DynamoDB
     """
+    client = boto3.resource('dynamodb')
+    table = client.Table(os.environ.get('CANDIDATE_TABLE'))
 
-    msg = "Hello World"
-    logger.warning(f"message: {msg}")
-
-    logger.info("start sleeping...")
-    time.sleep(1)
-    logger.warning("stop sleeping...")
+    body = json.loads(event.get('body'))
+    if body:
+        body['id'] = str(uuid.uuid4())
+        table.put_item(Item=body)
 
     resp = {
         "statusCode": 200,
-        "body": json.dumps(msg)
+        "body": json.dumps(body)
     }
 
     logger.warning(f"resp: {resp}")
@@ -34,12 +37,19 @@ def get_candidate(event, context):
     """
     Get candidates from DynamoDB
     """
+    dynamodb = boto3.client('dynamodb')
+    paginator = dynamodb.get_paginator('scan')
+    params = { "TableName": os.environ.get('CANDIDATE_TABLE')}
+
+    items = []
+    for page in paginator.paginate(**params):
+        items.append(page['Items'])
 
     resp = {
         "statusCode": 200,
-        "body": json.dumps({})
+        "body": json.dumps(items)
     }
-    logger.warning(f"resp: {resp}")
+    logger.info(f"resp: {resp}")
 
     return resp
 
