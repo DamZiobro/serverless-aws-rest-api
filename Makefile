@@ -55,25 +55,26 @@ endif
 
 smoke-run:
 	@echo "======> Running app on env $(ENV) <======"
-	sls invoke --stage $(ENV) -f candidate
+	sls invoke --stage $(ENV) -f getCandidate
 
 smoke-local-run:
 	@echo "======> Running app on locally <======"
 	python app/candidate.py
 
 sleep:
-	sleep 20
+	sleep 8
 
 logs:
 	@echo "======> Getting logs from env $(ENV) <======"
-	sls logs --stage $(ENV) -f candidate
+	sls logs --stage $(ENV) -f getCandidate
+	#sls logs --stage $(ENV) -f postCandidate
 
 run-and-logs: smoke-run sleep logs
 
 e2e-tests: run-and-logs
 
 load-tests:
-	python -m locust -f load-tests/locusttest.py --config load-tests/locust.conf
+	ENV=$(ENV) python -m locust -f load-tests/locusttest.py --config load-tests/locust.conf
 
 destroy:
 	@echo "======> DELETING in env $(ENV) <======"
@@ -82,4 +83,4 @@ destroy:
 ci: code-checks unittest coverage
 cd: ci deploy e2e-tests load-tests
 
-.PHONY: e2e-test deploy destroy unittest coverage lint security code-checks smoke-run logs destroy
+.PHONY: e2e-test deploy destroy unittest coverage lint security code-checks smoke-run logs destroy load-tests

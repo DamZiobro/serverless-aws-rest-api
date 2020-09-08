@@ -6,12 +6,15 @@
 #
 # Distributed under terms of the MIT license.
 
+import os
+
 from locust import HttpUser, task, between
 
-class SubmitBehavior(HttpUser):
+class CandidateAPIBehaviour(HttpUser):
 
     @task(1)
-    def test_submit(self):
-        self.client.post("/develop/candidates", name="Test /submit endpoint")
+    def test_get_candidate(self):
+        env = os.environ.get("ENV")
+        self.client.get(f"/{env}/candidates", name="Test GET /candidates endpoint")
 
     wait_time = between(5, 15)
