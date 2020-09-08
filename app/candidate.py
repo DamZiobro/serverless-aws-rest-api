@@ -4,7 +4,6 @@
 
 import json
 import logging
-import time
 import uuid
 import os
 import boto3
@@ -39,7 +38,7 @@ def get_candidate(event, context):
     """
     dynamodb = boto3.client('dynamodb')
     paginator = dynamodb.get_paginator('scan')
-    params = { "TableName": os.environ.get('CANDIDATE_TABLE')}
+    params = {"TableName": os.environ.get('CANDIDATE_TABLE')}
 
     items = []
     for page in paginator.paginate(**params):
